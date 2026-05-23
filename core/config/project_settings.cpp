@@ -1453,10 +1453,8 @@ TypedArray<Dictionary> ProjectSettings::get_global_class_list() {
 	if (cf->load(get_global_class_list_path()) == OK) {
 		global_class_list = cf->get_value("", "list", Array());
 	} else {
-#ifndef TOOLS_ENABLED
-		// Script classes can't be recreated in exported project, so print an error.
-		ERR_PRINT("Could not load global script cache.");
-#endif
+		// Script classes can't be recreated in exported project.
+		// We silence this for now to avoid cluttering the output in embedding scenarios.
 	}
 
 	// File read succeeded or failed. If it failed, assume everything is still okay.
