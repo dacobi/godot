@@ -8953,12 +8953,16 @@ void RenderingDevice::finalize() {
 	}
 	framebuffer_formats.clear();
 
-	// Delete the swap chains created for the screens.
+	// Delete the swap chains and framebuffers created for the screens.
 	for (const KeyValue<DisplayServerEnums::WindowID, RDD::SwapChainID> &it : screen_swap_chains) {
 		driver->swap_chain_free(it.value);
 	}
+	for (const KeyValue<DisplayServerEnums::WindowID, RDD::FramebufferID> &it : screen_framebuffers) {
+		driver->framebuffer_free(it.value);
+	}
 
 	screen_swap_chains.clear();
+	screen_framebuffers.clear();
 
 	// Delete the command queues.
 	if (present_queue) {
