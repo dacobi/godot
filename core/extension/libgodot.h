@@ -70,6 +70,17 @@ LIBGODOT_API GDExtensionObjectPtr libgodot_create_godot_instance(int p_argc, cha
  */
 LIBGODOT_API void libgodot_destroy_godot_instance(GDExtensionObjectPtr p_godot_instance);
 
+/**
+ * @name libgodot_set_audio_callback
+ * @since 4.6
+ *
+ * Sets a callback function that will be called by the Dummy audio driver with mixed audio data.
+ *
+ * @param callback The callback function to set.
+ *
+ */
+LIBGODOT_API void libgodot_set_audio_callback(void (*callback)(const int32_t*, int, int, int));
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus

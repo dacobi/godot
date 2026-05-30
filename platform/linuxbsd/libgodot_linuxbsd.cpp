@@ -68,3 +68,9 @@ void libgodot_destroy_godot_instance(GDExtensionObjectPtr p_godot_instance) {
 		Main::cleanup();
 	}
 }
+
+extern void (*g_audio_callback)(const int32_t*, int, int, int);
+
+void libgodot_set_audio_callback(void (*callback)(const int32_t*, int, int, int)) {
+	g_audio_callback = callback;
+}

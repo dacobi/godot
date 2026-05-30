@@ -31,6 +31,9 @@
 #include "audio_driver_dummy.h"
 
 #include "core/os/os.h"
+#include "core/extension/libgodot.h"
+
+void (*g_audio_callback)(const int32_t*, int, int, int) = nullptr;
 
 AudioDriverDummy *AudioDriverDummy::singleton = nullptr;
 
@@ -64,6 +67,10 @@ void AudioDriverDummy::thread_func(void *p_udata) {
 			ad->start_counting_ticks();
 
 			ad->audio_server_process(ad->buffer_frames, ad->samples_in);
+
+			if (g_audio_callback) {
+				g_audio_callback(ad->samples_in, ad->buffer_frames, ad->channels, ad->mix_rate);
+			}
 
 			ad->stop_counting_ticks();
 			ad->unlock();
