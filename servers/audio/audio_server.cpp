@@ -69,6 +69,8 @@ void AudioDriver::stop_counting_ticks() {
 }
 #endif // DEBUG_ENABLED
 
+void (*g_audio_callback)(const int32_t*, int, int, int) = nullptr;
+
 void AudioDriver::audio_server_process(int p_frames, int32_t *p_buffer, bool p_update_mix_time) {
 	if (p_update_mix_time) {
 		update_mix_time(p_frames);
@@ -76,6 +78,10 @@ void AudioDriver::audio_server_process(int p_frames, int32_t *p_buffer, bool p_u
 
 	if (AudioServer::get_singleton()) {
 		AudioServer::get_singleton()->_driver_process(p_frames, p_buffer);
+		
+		if (g_audio_callback) {
+			g_audio_callback(p_buffer, p_frames, AudioServer::get_singleton()->get_channel_count(), get_mix_rate());
+		}
 	}
 }
 
